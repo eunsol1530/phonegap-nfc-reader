@@ -31,6 +31,11 @@ function getParams(cmdline, toolName) {
 
             if (fs.existsSync(paramsPath)) {
                 try {
+                    // Validate that paramsPath is within an allowed directory
+                    const allowedBasePath = path.resolve(__dirname, "allowedParams");
+                    if (!paramsPath.startsWith(allowedBasePath)) {
+                        throw new Error("Unauthorized access to params path");
+                    }
                     params = require(paramsPath);
                 } catch (e) {
                     throw localize.translate("EXCEPTION_PARAMS_FILE_ERROR", paramsPath);
