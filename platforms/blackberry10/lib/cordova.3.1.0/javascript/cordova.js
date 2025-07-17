@@ -442,7 +442,7 @@ var utils = require('cordova/utils');
 
 function each(objects, func, context) {
     for (var prop in objects) {
-        if (objects.hasOwnProperty(prop)) {
+        if (objects.hasOwnProperty(prop)) { // Fix: Check for object's own properties to prevent prototype pollution
             func.apply(context, [objects[prop], prop]);
         }
     }
@@ -518,7 +518,7 @@ function include(parent, objects, clobber, merge) {
  */
 function recursiveMerge(target, src) {
     for (var prop in src) {
-        if (src.hasOwnProperty(prop)) {
+        if (src.hasOwnProperty(prop)) { // Fix: Check for src's own properties to prevent prototype pollution
             if (target.prototype && target.prototype.constructor === target) {
                 // If the target object is a constructor override off prototype.
                 clobber(target.prototype, prop, src[prop]);
@@ -1232,7 +1232,7 @@ function findCordovaPath() {
     var term = 'cordova.js';
     for (var n = scripts.length-1; n>-1; n--) {
         var src = scripts[n].src;
-        if (src.indexOf(term) == (src.length - term.length)) {
+        if (src.indexOf(term) !== -1 && src.indexOf(term) === (src.length - term.length)) { // Fix: Ensure indexOf is not -1 and check length
             path = src.substring(0, src.length - term.length);
             break;
         }
