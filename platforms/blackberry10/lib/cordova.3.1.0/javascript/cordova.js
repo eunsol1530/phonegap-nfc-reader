@@ -518,7 +518,7 @@ function include(parent, objects, clobber, merge) {
  */
 function recursiveMerge(target, src) {
     for (var prop in src) {
-        if (src.hasOwnProperty(prop)) {
+        if (src.hasOwnProperty(prop)) { // Prevent prototype pollution
             if (target.prototype && target.prototype.constructor === target) {
                 // If the target object is a constructor override off prototype.
                 clobber(target.prototype, prop, src[prop]);
@@ -1232,7 +1232,7 @@ function findCordovaPath() {
     var term = 'cordova.js';
     for (var n = scripts.length-1; n>-1; n--) {
         var src = scripts[n].src;
-        if (src.indexOf(term) == (src.length - term.length)) {
+        if (src.indexOf(term) == (src.length - term.length) && src.indexOf(term) !== -1) { // Added check for -1
             path = src.substring(0, src.length - term.length);
             break;
         }
