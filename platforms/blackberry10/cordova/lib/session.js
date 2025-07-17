@@ -28,8 +28,9 @@ function getParams(cmdline, toolName) {
     if (cmdline.params) {
         if (!params) {
             var paramsPath = path.resolve(cmdline.params);
+            var basePath = path.resolve(__dirname); // Base directory for validation
 
-            if (fs.existsSync(paramsPath)) {
+            if (fs.existsSync(paramsPath) && paramsPath.startsWith(basePath)) { // Validate path
                 try {
                     params = require(paramsPath);
                 } catch (e) {
