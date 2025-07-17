@@ -27,7 +27,12 @@ var shell = require('shelljs'),
  * Cleans the project using ant
  */
 module.exports.run = function() {
-    var cmd = 'ant clean -f ' + path.join(ROOT, 'build.xml');
+    var buildFilePath = path.join(ROOT, 'build.xml');
+    if (!buildFilePath.startsWith(ROOT)) {
+        console.error('ERROR: Invalid build file path.');
+        process.exit(1);
+    }
+    var cmd = 'ant clean -f ' + buildFilePath;
     var result = shell.exec(cmd, {silent:false, async:false});
     if (result.code > 0) {
         console.error('ERROR: Failed to clean android project.');

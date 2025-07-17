@@ -50,7 +50,7 @@ module.exports.run = function(build_type) {
            break;
     }
     if(cmd) {
-        var result = shell.exec(cmd, {silent:false, async:false});
+        var result = shell.exec(cmd, {silent:false, async:false, env: Object.assign({}, process.env)});
         if(result.code > 0) {
             console.error('ERROR: Failed to build android project.');
             console.error(result.output);

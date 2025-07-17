@@ -40,7 +40,7 @@ module.exports.list = function() {
         var device_list = [];
         for (var i = 1; i < response.length; i++) {
             if (response[i].match(/\w+\tdevice/) && !response[i].match(/emulator/)) {
-                device_list.push(response[i].replace(/\tdevice/, '').replace('\r', ''));
+                device_list.push(response[i].replace(/\tdevice/, '').replace(/\r/g, ''));
             }
         }
         return device_list;
@@ -60,7 +60,7 @@ module.exports.install = function(target) {
             var apk_path = build.get_apk();
             var launchName = appinfo.getActivityName();
             console.log('Installing app on device...');
-            cmd = 'adb -s ' + target + ' install -r ' + apk_path;
+            cmd = 'adb -s ' + shell.escape(target) + ' install -r ' + shell.escape(apk_path);
             var install = shell.exec(cmd, {silent:false, async:false});
             if (install.error || install.output.match(/Failure/)) {
                 console.error('ERROR : Failed to install apk to device : ');
@@ -69,12 +69,12 @@ module.exports.install = function(target) {
             }
 
             //unlock screen
-            cmd = 'adb -s ' + target + ' shell input keyevent 82';
+            cmd = 'adb -s ' + shell.escape(target) + ' shell input keyevent 82';
             shell.exec(cmd, {silent:true, async:false});
 
             // launch the application
             console.log('Launching application...');
-            cmd = 'adb -s ' + target + ' shell am start -W -a android.intent.action.MAIN -n ' + launchName;
+            cmd = 'adb -s ' + shell.escape(target) + ' shell am start -W -a android.intent.action.MAIN -n ' + shell.escape(launchName);
             var launch = shell.exec(cmd, {silent:true, async:false});
             if(launch.code > 0) {
                 console.error('ERROR : Failed to launch application on emulator : ' + launch.error);

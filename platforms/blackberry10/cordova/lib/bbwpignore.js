@@ -94,13 +94,13 @@ BBWPignore = function (bbwpIgnoreFile, filesToMatch) {
             //match wildCards
             wildcardEntries.forEach(function (wildcard) {
                 if (wildcard.match("^/")) { // special case looking for exact match
-                    wildcard = "^" + wildcard.replace("*", "[^\/]*");
+                    wildcard = "^" + wildcard.replace(/\*/g, "[^\/]*");
                     if (("/" + fileToMatch).match(wildcard)) {
                         matched.push(fileToMatch);
                         isMatch = true;
                     }
                 } else {
-                    wildcard = wildcard.replace("*", "[^\/]*");
+                    wildcard = wildcard.replace(/\*/g, "[^\/]*");
                     if (fileToMatch.match(wildcard)) {
                         matched.push(fileToMatch);
                         isMatch = true;
