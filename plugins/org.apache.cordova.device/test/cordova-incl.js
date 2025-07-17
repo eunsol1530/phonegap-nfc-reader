@@ -67,7 +67,11 @@ if (PLAT) {
 
 if (!window._doNotWriteCordovaScript) {
     if (PLAT != "windows8") {
-        document.write('<script type="text/javascript" charset="utf-8" src="' + cordovaPath + '"></script>');
+        var scriptElement = document.createElement('script');
+        scriptElement.type = 'text/javascript';
+        scriptElement.charset = 'utf-8';
+        scriptElement.src = cordovaPath;
+        document.head.appendChild(scriptElement);
     } else {
         var s = document.createElement('script');
         s.src = cordovaPath;

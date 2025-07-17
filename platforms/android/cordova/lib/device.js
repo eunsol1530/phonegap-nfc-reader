@@ -40,7 +40,7 @@ module.exports.list = function() {
         var device_list = [];
         for (var i = 1; i < response.length; i++) {
             if (response[i].match(/\w+\tdevice/) && !response[i].match(/emulator/)) {
-                device_list.push(response[i].replace(/\tdevice/, '').replace('\r', ''));
+                device_list.push(response[i].replace(/\tdevice/, '').replace(/\r/g, ''));
             }
         }
         return device_list;

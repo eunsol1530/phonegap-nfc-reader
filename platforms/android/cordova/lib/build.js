@@ -35,11 +35,11 @@ module.exports.run = function(build_type) {
     switch(build_type) {
         case '--debug' :
             clean.run();
-            cmd = 'ant debug -f ' + path.join(ROOT, 'build.xml');
+            cmd = ['ant', 'debug', '-f', path.join(ROOT, 'build.xml')];
             break;
         case '--release' :
             clean.run();
-            cmd = 'ant release -f ' + path.join(ROOT, 'build.xml');
+            cmd = ['ant', 'release', '-f', path.join(ROOT, 'build.xml')];
             break;
         case '--nobuild' :
             console.log('Skipping build...');
@@ -50,7 +50,7 @@ module.exports.run = function(build_type) {
            break;
     }
     if(cmd) {
-        var result = shell.exec(cmd, {silent:false, async:false});
+        var result = shell.exec(cmd.join(' '), {silent:false, async:false});
         if(result.code > 0) {
             console.error('ERROR: Failed to build android project.');
             console.error(result.output);

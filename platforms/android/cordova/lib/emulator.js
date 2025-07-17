@@ -49,22 +49,22 @@ module.exports.list_images = function() {
             // To return more detailed information use img_obj
             var img_obj = {};
             if (response[i].match(/Name:\s/)) {
-                img_obj['name'] = response[i].split('Name: ')[1].replace('\r', '');
+                img_obj['name'] = response[i].split('Name: ')[1].replace(/\r/g, '');
                 if (response[i + 1].match(/Path:\s/)) {
                     i++;
-                    img_obj['path'] = response[i].split('Path: ')[1].replace('\r', '');
+                    img_obj['path'] = response[i].split('Path: ')[1].replace(/\r/g, '');
                 }
                 if (response[i + 1].match(/\(API\slevel\s/)) {
                     i++;
-                    img_obj['target'] = response[i].replace('\r', '');
+                    img_obj['target'] = response[i].replace(/\r/g, '');
                 }
                 if (response[i + 1].match(/ABI:\s/)) {
                     i++;
-                    img_obj['abi'] = response[i].split('ABI: ')[1].replace('\r', '');
+                    img_obj['abi'] = response[i].split('ABI: ')[1].replace(/\r/g, '');
                 }
                 if (response[i + 1].match(/Skin:\s/)) {
                     i++;
-                    img_obj['skin'] = response[i].split('Skin: ')[1].replace('\r', '');
+                    img_obj['skin'] = response[i].split('Skin: ')[1].replace(/\r/g, '');
                 }
 
                 emulator_list.push(img_obj);
@@ -114,7 +114,7 @@ module.exports.list_started = function() {
         var started_emulator_list = [];
         for (var i = 1; i < response.length; i++) {
             if (response[i].match(/device/) && response[i].match(/emulator/)) {
-                started_emulator_list.push(response[i].replace(/\tdevice/, '').replace('\r', ''));
+                started_emulator_list.push(response[i].replace(/\tdevice/, '').replace(/\r/g, ''));
             }
         }
         return started_emulator_list;
@@ -123,7 +123,7 @@ module.exports.list_started = function() {
 
 module.exports.get_target = function() {
     var target = shell.grep(/target=android-[\d+]/, path.join(ROOT, 'project.properties'));
-    return target.split('=')[1].replace('\n', '').replace('\r', '').replace(' ', '');
+    return target.split('=')[1].replace(/\n/g, '').replace(/\r/g, '').replace(' ', '');
 }
 
 module.exports.list_targets = function() {

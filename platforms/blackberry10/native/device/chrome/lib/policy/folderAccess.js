@@ -42,7 +42,7 @@ function _determineDepth(folderPath) {
     var depthCount = 0;
 
     // Replace all backslashes with forward slash
-    folderPath = folderPath.replace("\\", "/");
+    folderPath = folderPath.replaceAll("\\", "/");
 
     // Special case: "/" is the given path
     if (folderPath === "/") {
@@ -75,7 +75,7 @@ function _getPath(folderPath, desiredDepth) {
     }
 
     // Replace all backslashes with forward slash
-    folderPath = folderPath.replace("\\", "/");
+    folderPath = folderPath.replaceAll("\\", "/");
 
     folderPath = _trimSurroundingSlashes(folderPath);
 

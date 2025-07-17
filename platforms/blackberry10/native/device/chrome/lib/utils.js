@@ -236,20 +236,20 @@ self = module.exports = {
     },
 
     regexSanitize: function (regexString) {
-        return regexString.replace("^", "\\^")
-                    .replace("$", "\\$")
-                    .replace("(", "\\(")
-                    .replace(")", "\\)")
-                    .replace("<", "\\<")
-                    .replace("[", "\\[")
-                    .replace("{", "\\{")
-                    .replace(/\\/, "\\\\")
-                    .replace("|", "\\|")
-                    .replace(">", "\\>")
-                    .replace(".", "\\.")
-                    .replace("*", "\\*")
-                    .replace("+", "\\+")
-                    .replace("?", "\\?");
+        return regexString.replace(/\\/g, "\\\\")
+                    .replace(/\^/g, "\\^")
+                    .replace(/\$/g, "\\$")
+                    .replace(/\(/g, "\\(")
+                    .replace(/\)/g, "\\)")
+                    .replace(/</g, "\\<")
+                    .replace(/\[/g, "\\[")
+                    .replace(/{/g, "\\{")
+                    .replace(/\|/g, "\\|")
+                    .replace(/>/g, "\\>")
+                    .replace(/\./g, "\\.")
+                    .replace(/\*/g, "\\*")
+                    .replace(/\+/g, "\\+")
+                    .replace(/\?/g, "\\?");
     },
 
     find: function (comparison, collection, startInx, endInx, callback) {
